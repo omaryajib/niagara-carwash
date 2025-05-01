@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Dashboard</h1>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card card-kpi mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Waschanzahl insgesamt</h5>
+                    <p class="card-text">{{ total_washes }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card card-kpi mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Gesamtumsatz</h5>
+                    <p class="card-text">{{ total_umsatz }} €</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card card-kpi mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Gesamtgewinn</h5>
+                    <p class="card-text">{{ total_profit }} €</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card card-kpi mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Durchschnittlicher Umsatz pro Wäsche</h5>
+                    <p class="card-text">{{ avg_umsatz_per_wash }} €</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Wäschen pro Filiale</h2>
+            <div id="washes-chart"></div>
+        </div>
+        <div class="col-md-6">
+            <h2>Umsatzverteilung</h2>
+            <div id="umsatz-chart"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Tägliche Verkäufe</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Filiale</th>
+                        <th>Normaler Umsatz</th>
+                        <th>Umsatz (Karte)</th>
+                        <th>Umsatz (Lastschrift)</th>
+                        <th>Gesamtumsatz</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for filiale, data in daily_sales.items() %}
+                        <tr>
+                            <td>{{ filiale }}</td>
+                            <td>{{ data.normal_umsatz }} €</td>
+                            <td>{{ data.subscription_card }} €</td>
+                            <td>{{ data.subscription_lastschrift }} €</td>
+                            <td>{{ data.total_umsatz }} €</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    var washesChartOptions = {
+        chart: { type: 'bar', height: 300 },
+        series: [{
+            name: 'Wäschen',
+            data: [{% for filiale, count in washes_per_filiale.items() %}{ x: '{{ filiale }}', y: {{ count }} },{% endfor %}]
+        }],
+        xaxis: {
+            categories: [{% for filiale, count in washes_per_filiale.items() %}'{{ filiale }}',{% endfor %}]
+        },
+        yaxis: {
+            title: { text: 'Anzahl der Wäschen' }
+        }
+    };
+    var washesChart = new ApexCharts(document.querySelector("#washes-chart"), washesChartOptions);
+    washesChart.render();
+
+    var umsatzChartOptions = {
+        chart: { type: 'pie', height: 300 },
+        series: [{{ normal_umsatz }}, {{ subscription_umsatz }}],
+        labels: ['Normaler Umsatz', 'Abo-Umsatz'],
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: { width: 200 },
+                legend: { position: 'bottom' }
+            }
+        }]
+    };
+    var umsatzChart = new ApexCharts(document.querySelector("#umsatz-chart"), umsatzChartOptions);
+    umsatzChart.render();
+</script>
+{% endblock %}

@@ -1,0 +1,78 @@
+/* style.css */
+
+/* Allgemeine Stile */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa; /* Helles Grau für den Hintergrund */
+}
+
+/* Navigationsleiste */
+.navbar {
+    background-color: #343a40 !important; /* Dunkles Grau/Schwarz für die Menüleiste */
+    color: white !important;
+}
+
+.navbar-brand {
+    color: white !important;
+}
+
+.nav-link {
+    color: white !important;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.nav-link:hover {
+    color: #007bff !important; /* Helles Blau beim Hover-Effekt */
+}
+
+/* Container-Abstand */
+.container {
+    margin-top: 20px;
+}
+
+/* KPI-Karten */
+.card-kpi {
+    border-left: 5px solid #007bff; /* Blau für KPI-Karten */
+    margin-bottom: 15px;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.card-text {
+    font-size: 1.5rem;
+    color: #555;
+}
+
+/* Überschriften */
+h1, h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Tabellen-Stile */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    border: 1px solid #dee2e6;
+    padding: 8px;
+    text-align: left;
+}
+
+.table th {
+    background-color: #f2f2f2;
+}

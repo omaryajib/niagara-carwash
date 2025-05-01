@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Add Wash{% endblock %}
+{% block content %}
+    <h1>Add New Wash</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.filiale.label(class="form-label") }}
+            {{ form.filiale(class="form-select") }}
+            {% if form.filiale.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {% for error in form.filiale.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+{% endblock %}

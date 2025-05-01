@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Daily Entry{% endblock %}
+{% block content %}
+    <h1>Daily Sales Entry</h1>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="filiale" class="form-label">Filiale</label>
+            <select class="form-select" id="filiale" name="filiale">
+                <option value="Aachen">Aachen</option>
+                <option value="Dinslaken">Dinslaken</option>
+                <option value="Neuss">Neuss</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="normal_umsatz" class="form-label">Normal Umsatz (€)</label>
+            <input type="number" class="form-control" id="normal_umsatz" name="normal_umsatz" value="0" step="0.01">
+        </div>
+        <div class="mb-3">
+            <label for="subscription_card" class="form-label">Subscription Umsatz (Card) (€)</label>
+            <input type="number" class="form-control" id="subscription_card" name="subscription_card" value="0" step="0.01">
+        </div>
+        <div class="mb-3">
+            <label for="subscription_lastschrift" class="form-label">Subscription Umsatz (Lastschrift) (€)</label>
+            <input type="number" class="form-control" id="subscription_lastschrift" name="subscription_lastschrift" value="0" step="0.01">
+        </div>
+        <div class="mb-3">
+            <label for="water_cost" class="form-label">Water Cost (€)</label>
+            <input type="number" class="form-control" id="water_cost" name="water_cost" value="0" step="0.01">
+        </div>
+        <div class="mb-3">
+            <label for="energy_cost" class="form-label">Energy Cost (€)</label>
+            <input type="number" class="form-control" id="energy_cost" name="energy_cost" value="0" step="0.01">
+        </div>
+        <div class="mb-3">
+            <label for="product_cost" class="form-label">Product Cost (€)</label>
+            <input type="number" class="form-control" id="product_cost" name="product_cost" value="0" step="0.01">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Daily Sales</button>
+    </form>
+{% endblock %}
