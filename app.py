@@ -82,6 +82,61 @@ def dashboard():
     except Exception as e:
         return render_template('error.html', error=str(e))
 
+@app.route('/wash_records')
+def wash_records():
+    if not session.get('user'):
+        return redirect(url_for('login'))
+
+    try:
+        rows = query_db('SELECT id, filiale, wash_date FROM washes ORDER BY wash_date DESC')
+        washes = []
+        for row in rows:
+            washes.append({
+                'id': row[0],
+                'filiale': row[1],
+                'wash_date': row[2]
+            })
+        return render_template('wash_records.html', washes=washes, username=session['user']['username'])
+    except Exception as e:
+        return render_template('error.html', error=str(e))
+
+
+@app.route('/stock')
+def stock():
+    if not session.get('user'):
+        return redirect(url_for('login'))
+    return render_template('stock.html', username=session['user']['username'])
+
+@app.route('/daily_entry', methods=['GET', 'POST'])
+def daily_entry():
+    if not session.get('user'):
+        return redirect(url_for('login'))
+    if request.method == 'POST':
+        filiale = request.form['filiale']
+        normal_umsatz = float(request.form['normal_umsatz'] or 0)
+        subscription_card = float(request.form['subscription_card'] or 0)
+        subscription_lastschrift = float(request.form['subscription_lastschrift'] or 0)
+        water_cost = float(request.form['water_cost'] or 0)
+        energy_cost = float(request.form['energy_cost'] or 0)
+        product_cost = float(request.form['product_cost'] or 0)
+
+        execute_db('''INSERT INTO daily_sales (filiale, normal_umsatz, subscription_card, subscription_lastschrift, water_cost, energy_cost, product_cost)
+                      VALUES (%s, %s, %s, %s, %s, %s, %s)''',
+                   [filiale, normal_umsatz, subscription_card, subscription_lastschrift, water_cost, energy_cost, product_cost])
+        return redirect(url_for('dashboard'))
+    return render_template('daily_entry.html', username=session['user']['username'])
+
+@app.route('/add_wash', methods=['GET', 'POST'])
+def add_wash():
+    if not session.get('user'):
+        return redirect(url_for('login'))
+    form = WashRecordForm()
+    if form.validate_on_submit():
+        filiale = form.filiale.data
+        execute_db('INSERT INTO washes (filiale) VALUES (%s)', [filiale])
+        return redirect(url_for('dashboard'))
+    return render_template('add_wash.html', form=form, username=session['user']['username'])
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()

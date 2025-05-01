@@ -1,9 +1,30 @@
 {% extends 'base.html' %}
 
-{% block title %}Wash Records{% endblock %}
+{% block title %}Waschprotokolle{% endblock %}
 
 {% block content %}
-    <h1>Wash Records</h1>
-    <p><a href="{{ url_for('add_wash') }}">Add New Wash Record</a></p>
+<h2>Waschprotokolle</h2>
 
-    {% endblock %}
+{% if washes %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Filiale</th>
+                <th>Datum</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for wash in washes %}
+            <tr>
+                <td>{{ wash.id }}</td>
+                <td>{{ wash.filiale }}</td>
+                <td>{{ wash.wash_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Keine Waschvorgänge gefunden.</p>
+{% endif %}
+{% endblock %}
