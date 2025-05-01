@@ -159,13 +159,21 @@ def login():
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
+        print(f"🔐 Tentative de connexion avec: {username}")
+        
         user = fetch_user(username)
+        print(f"📄 Résultat de fetch_user: {user}")
+
         if user and check_password_hash(user['password'], password):
+            print("✅ Mot de passe correct. Connexion réussie.")
             session['user'] = {'id': user['id'], 'username': user['username']}
             return redirect(url_for('dashboard'))
         else:
+            print("❌ Connexion échouée : utilisateur non trouvé ou mauvais mot de passe.")
             flash('Falscher Benutzername oder Passwort.', 'danger')
+
     return render_template('login.html', form=form)
+
 
 @app.route('/logout')
 def logout():
