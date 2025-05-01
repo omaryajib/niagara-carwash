@@ -194,4 +194,6 @@ if __name__ == '__main__':
         conn.close()
         print("### Datenbank und Tabellen wurden erstellt ###")
 
-    app.run(debug=True)
+    # ✅ هذا هو السطر المهم لتصحيح مشكلة Render
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
