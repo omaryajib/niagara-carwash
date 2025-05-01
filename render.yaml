@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: niagara-carwash
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python app.py"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: niagara-db
+          property: connectionString

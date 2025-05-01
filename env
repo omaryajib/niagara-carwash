@@ -1,0 +1,2 @@
+DATABASE_URL=postgresql://niagara_db_user:TON_MOT_DE_PASSE@TON_HOST:5432/niagara_db
+SECRET_KEY=une_clé_secrète_bien_sûre
